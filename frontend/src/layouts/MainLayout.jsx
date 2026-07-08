@@ -1,7 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@mantine/core";
+import { useAuth } from "../context/AuthContext";
 import AppContainer from "../components/shared/AppContainer";
 
 export default function MainLayout({ children }) {
+  const navigate = useNavigate();
+
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
   return (
     <AppContainer>
       <header data-testid="main-header">
@@ -41,6 +51,14 @@ export default function MainLayout({ children }) {
           <Link data-testid="menu-course-management" to="/course-management">
             Course Management
           </Link>
+          <Button
+            variant="light"
+            color="red"
+            data-testid="logout-button"
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
         </nav>
 
         <hr />

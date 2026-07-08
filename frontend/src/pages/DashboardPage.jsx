@@ -1,7 +1,10 @@
 import PageHeader from "../components/shared/PageHeader";
 import AppCard from "../components/shared/AppCard";
+import { useAuth } from "../context/AuthContext";
 
 export default function DashboardPage() {
+  const { user } = useAuth();
+
   return (
     <AppCard>
       <PageHeader
@@ -9,11 +12,17 @@ export default function DashboardPage() {
         subtitle="Main entry point after login."
       />
 
-      <ul data-testid="dashboard-features">
-        <li>Quick navigation</li>
-        <li>User summary</li>
-        <li>Role information</li>
-      </ul>
+      <p data-testid="current-user">
+        User: {user?.firstName} {user?.lastName}
+      </p>
+
+      <p data-testid="current-role">
+        Role: {user?.role}
+      </p>
+
+      <p data-testid="current-status">
+        Status: {user?.status}
+      </p>
     </AppCard>
   );
 }

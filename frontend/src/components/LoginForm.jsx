@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { users } from "../data/users";
+import { useAuth } from "../context/AuthContext";
 
 import {
   TextInput,
@@ -12,7 +14,7 @@ import {
 
 export default function LoginForm() {
   const navigate = useNavigate();
-
+  const { setUser } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -28,17 +30,24 @@ export default function LoginForm() {
       return;
     }
 
+    const matchedUser = users.find(
+      (user) => user.email === email && user.password === password,
+    );
+
+    if (!matchedUser) {
+      setErrorMessage("Invalid credentials.");
+      return;
+    }
+
     setErrorMessage("");
+
+    setUser(matchedUser);
+
     navigate("/dashboard");
   };
 
   return (
-    <Paper
-      shadow="sm"
-      p="xl"
-      radius="md"
-      withBorder
-    >
+    <Paper shadow="sm" p="xl" radius="md" withBorder>
       <Stack>
         <TextInput
           label="Email"
@@ -57,19 +66,12 @@ export default function LoginForm() {
         />
 
         {errorMessage && (
-          <Alert
-            color="red"
-            data-testid="login-error"
-          >
+          <Alert color="red" data-testid="login-error">
             {errorMessage}
           </Alert>
         )}
 
-        <Button
-          fullWidth
-          data-testid="login-submit"
-          onClick={handleLogin}
-        >
+        <Button fullWidth data-testid="login-submit" onClick={handleLogin}>
           Login
         </Button>
       </Stack>

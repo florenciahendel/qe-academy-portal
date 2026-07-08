@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
 
 import MainLayout from "../layouts/MainLayout";
 
@@ -21,62 +22,76 @@ export default function AppRouter() {
         <Route
           path="/dashboard"
           element={
-            <MainLayout>
-              <DashboardPage />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <DashboardPage />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/courses"
           element={
-            <MainLayout>
-              <CoursesPage />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <CoursesPage />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/profile"
           element={
-            <MainLayout>
-              <ProfilePage />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <ProfilePage />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/my-courses"
           element={
-            <MainLayout>
-              <MyCoursesPage />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <MyCoursesPage />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/course-detail"
           element={
-            <MainLayout>
-              <CourseDetailPage />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <CourseDetailPage />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/users"
           element={
-            <MainLayout>
-              <UserManagementPage />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <UserManagementPage />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/course-management"
           element={
-            <MainLayout>
-              <CourseManagementPage />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <CourseManagementPage />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
         <Route path="*" element={<NotFoundPage />} />
