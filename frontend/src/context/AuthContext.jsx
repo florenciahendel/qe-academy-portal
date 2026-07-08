@@ -4,9 +4,11 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [enrollments, setEnrollments] = useState([]);
 
   const logout = () => {
     setUser(null);
+    setEnrollments([]);
   };
 
   return (
@@ -15,6 +17,8 @@ export function AuthProvider({ children }) {
         user,
         setUser,
         logout,
+        enrollments,
+        setEnrollments,
       }}
     >
       {children}

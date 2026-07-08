@@ -63,7 +63,7 @@ export default function AppRouter() {
         />
 
         <Route
-          path="/course-detail"
+          path="/course-detail/:id"
           element={
             <ProtectedRoute>
               <MainLayout>
