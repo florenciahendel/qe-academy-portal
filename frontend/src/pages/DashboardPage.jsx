@@ -1,15 +1,19 @@
+import PageHeader from "../components/shared/PageHeader";
+import AppCard from "../components/shared/AppCard";
+
 export default function DashboardPage() {
   return (
-    <div>
-      <h1>Dashboard</h1>
+    <AppCard>
+      <PageHeader
+        title="Dashboard"
+        subtitle="Main entry point after login."
+      />
 
-      <p>Main entry point after login.</p>
-
-      <ul>
+      <ul data-testid="dashboard-features">
         <li>Quick navigation</li>
         <li>User summary</li>
         <li>Role information</li>
       </ul>
-    </div>
+    </AppCard>
   );
 }

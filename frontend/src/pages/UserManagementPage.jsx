@@ -1,15 +1,19 @@
+import PageHeader from "../components/shared/PageHeader";
+import AppCard from "../components/shared/AppCard"; 
+
 export default function UserManagementPage() {
   return (
-    <div>
-      <h1 data-testid="page-title">User Management</h1>
+    <AppCard>
+      <PageHeader
+        title="User Management"
+        subtitle="Administration module."
+      />
 
-      <p>Administration module.</p>
-
-      <ul>
+      <ul data-testid="user-management-features">
         <li>Create users</li>
         <li>Edit users</li>
         <li>Deactivate users</li>
       </ul>
-    </div>
+    </AppCard>
   );
 }

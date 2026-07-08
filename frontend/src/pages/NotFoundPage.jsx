@@ -1,11 +1,17 @@
+import PageHeader from "../components/shared/PageHeader";
+import AppCard from "../components/shared/AppCard";
+
 export default function NotFoundPage() {
   return (
-    <div>
-      <h1 data-testid="page-title">404</h1>
+    <AppCard>
+      <PageHeader
+        title="404"
+        subtitle="Page not found."
+      />
 
       <p data-testid="not-found-message">
-        Page not found.
+        The requested page does not exist.
       </p>
-    </div>
+    </AppCard>
   );
 }

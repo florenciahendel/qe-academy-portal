@@ -1,16 +1,20 @@
+import PageHeader from "../components/shared/PageHeader";
+import LoginForm from "../components/LoginForm";
+
 export default function LoginPage() {
   return (
-    <div>
-      <h1>QE Academy Portal</h1>
-      <h2>Login</h2>
+    <div
+      style={{
+        maxWidth: "500px",
+        margin: "40px auto",
+      }}
+    >
+      <PageHeader
+        title="QE Academy Portal"
+        subtitle="Playwright Training Environment"
+      />
 
-      <p>Authentication module.</p>
-
-      <ul>
-        <li>User authentication</li>
-        <li>Role-based access</li>
-        <li>Session management</li>
-      </ul>
+      <LoginForm />
     </div>
   );
 }

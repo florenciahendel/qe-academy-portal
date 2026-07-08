@@ -1,16 +1,20 @@
+import PageHeader from "../components/shared/PageHeader";
+import AppCard from "../components/shared/AppCard";
+
 export default function CourseDetailPage() {
   return (
-    <div>
-      <h1 data-testid="page-title">Course Detail</h1>
+    <AppCard>
+      <PageHeader
+        title="Course Detail"
+        subtitle="Detailed course information."
+      />
 
-      <p>Detailed course information.</p>
-
-      <ul>
+      <ul data-testid="course-detail-fields">
         <li>Description</li>
         <li>Category</li>
         <li>Duration</li>
         <li>Level</li>
       </ul>
-    </div>
+    </AppCard>
   );
 }

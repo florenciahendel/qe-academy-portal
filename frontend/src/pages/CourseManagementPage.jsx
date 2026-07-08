@@ -1,15 +1,19 @@
+import PageHeader from "../components/shared/PageHeader";
+import AppCard from "../components/shared/AppCard";
+
 export default function CourseManagementPage() {
   return (
-    <div>
-      <h1 data-testid="page-title">Course Management</h1>
+    <AppCard  >
+      <PageHeader
+        title="Course Management"
+        subtitle="Course administration module."
+      />
 
-      <p>Course administration module.</p>
-
-      <ul>
+      <ul data-testid="course-management-features">
         <li>Create courses</li>
         <li>Edit courses</li>
         <li>Archive courses</li>
       </ul>
-    </div>
+    </AppCard>
   );
 }

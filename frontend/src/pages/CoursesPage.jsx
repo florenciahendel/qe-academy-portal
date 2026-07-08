@@ -1,15 +1,19 @@
+import PageHeader from "../components/shared/PageHeader";
+import AppCard from "../components/shared/AppCard";
+
 export default function CoursesPage() {
   return (
-    <div>
-      <h1>Course Catalog</h1>
+    <AppCard>
+      <PageHeader
+        title="Course Catalog"
+        subtitle="Training catalog for automation exercises."
+      />
 
-      <p>Training catalog for automation exercises.</p>
-
-      <ul>
+      <ul data-testid="course-catalog-features">
         <li>Course search</li>
         <li>Course filters</li>
         <li>Course detail navigation</li>
       </ul>
-    </div>
+    </AppCard>
   );
 }
