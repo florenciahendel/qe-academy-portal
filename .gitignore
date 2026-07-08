@@ -1,0 +1,21 @@
+# Python
+backend/.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment variables
+.env
+
+# Node
+frontend/node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
