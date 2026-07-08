@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import ProtectedRoute from "./ProtectedRoute";
+import RoleProtectedRoute from "./RoleProtectedRoute";
 
 import MainLayout from "../layouts/MainLayout";
 
@@ -9,6 +11,7 @@ import CoursesPage from "../pages/CoursesPage";
 import ProfilePage from "../pages/ProfilePage";
 import MyCoursesPage from "../pages/MyCoursesPage";
 import CourseDetailPage from "../pages/CourseDetailPage";
+import UserDetailPage from "../pages/UserDetailPage";
 import UserManagementPage from "../pages/UserManagementPage";
 import CourseManagementPage from "../pages/CourseManagementPage";
 import NotFoundPage from "../pages/NotFoundPage";
@@ -51,14 +54,17 @@ export default function AppRouter() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/my-courses"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute
+              allowedRoles={["Student"]}
+            >
               <MainLayout>
                 <MyCoursesPage />
               </MainLayout>
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
 
@@ -76,25 +82,49 @@ export default function AppRouter() {
         <Route
           path="/users"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute
+              allowedRoles={["Admin"]}
+            >
               <MainLayout>
                 <UserManagementPage />
               </MainLayout>
-            </ProtectedRoute>
+            </RoleProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/users/:id"
+          element={
+            <RoleProtectedRoute
+              allowedRoles={["Admin"]}
+            >
+              <MainLayout>
+                <UserDetailPage />
+              </MainLayout>
+            </RoleProtectedRoute>
           }
         />
 
         <Route
           path="/course-management"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute
+              allowedRoles={[
+                "Admin",
+                "Instructor",
+              ]}
+            >
               <MainLayout>
                 <CourseManagementPage />
               </MainLayout>
-            </ProtectedRoute>
+            </RoleProtectedRoute>
           }
         />
-        <Route path="*" element={<NotFoundPage />} />
+
+        <Route
+          path="*"
+          element={<NotFoundPage />}
+        />
       </Routes>
     </BrowserRouter>
   );

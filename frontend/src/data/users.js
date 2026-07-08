@@ -8,8 +8,8 @@ export const users = [
     lastName: "García",
     email: "maria.garcia@example.com",
     password: "Password123!",
-    role: "student",
-    status: "inactive"
+    role: "Student",
+    status: "Inactive"
   },
   {
     id: "2",
@@ -17,8 +17,8 @@ export const users = [
     lastName: "Martínez",
     email: "jose.martinez@example.com",
     password: "InstructorPass!",
-    role: "instructor",
-    status: "inactive"
+    role: "Instructor",
+    status: "Inactive"
   },
   {
     id: "3",
@@ -26,8 +26,8 @@ export const users = [
     lastName: "López",
     email: "ana.lopez@example.com",
     password: "AdminPass!",
-    role: "admin",
-    status: "inactive"
+    role: "Admin",
+    status: "Inactive"
   },
   {
     id: "4",
@@ -35,8 +35,8 @@ export const users = [
     lastName: "Fernández",
     email: "luis.fernandez@example.com",
     password: "Password123!",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   },
   {
     id: "5",
@@ -44,8 +44,8 @@ export const users = [
     lastName: "Ramírez",
     email: "sofia.ramirez@example.com",
     password: "Password123!",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   },
   {
     id: "6",
@@ -53,8 +53,8 @@ export const users = [
     lastName: "Gómez",
     email: "carlos.gomez@example.com",
     password: "Password123!",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   },
   {
     id: "7",
@@ -62,8 +62,8 @@ export const users = [
     lastName: "Díaz",
     email: "lucia.diaz@example.com",
     password: "Password123!",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   },
   {
     id: "8",
@@ -71,8 +71,8 @@ export const users = [
     lastName: "Álvarez",
     email: "miguel.alvarez@example.com",
     password: "Password123!",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   },
   {
     id: "9",
@@ -80,8 +80,8 @@ export const users = [
     lastName: "Torres",
     email: "mariana.torres@example.com",
     password: "Password123!",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   },
   {
     id: "10",
@@ -89,8 +89,8 @@ export const users = [
     lastName: "Ruiz",
     email: "diego.ruiz@example.com",
     password: "Password123!",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   },
   {
     id: "11",
@@ -98,8 +98,8 @@ export const users = [
     lastName: "Morales",
     email: "valentina.morales@example.com",
     password: "Password123!",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   },
   {
     id: "12",
@@ -107,8 +107,8 @@ export const users = [
     lastName: "Reyes",
     email: "andres.reyes@example.com",
     password: "Password123!",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   },
   {
     id: "13",
@@ -116,8 +116,8 @@ export const users = [
     lastName: "Ríos",
     email: "camila.rios@example.com",
     password: "Password123!",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   },
   {
     id: "14",
@@ -125,8 +125,8 @@ export const users = [
     lastName: "Castro",
     email: "tomas.castro@example.com",
     password: "Password123!",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   },
   {
     id: "15",
@@ -134,8 +134,8 @@ export const users = [
     lastName: "Santos",
     email: "julia.santos@example.com",
     password: "Password123!",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   },
   {
     id: "16",
@@ -143,8 +143,8 @@ export const users = [
     lastName: "Vargas",
     email: "fernando.vargas@example.com",
     password: "Password123!",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   },
   {
     id: "17",
@@ -152,8 +152,8 @@ export const users = [
     lastName: "Ortiz",
     email: "noelia.ortiz@example.com",
     password: "Password123!",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   },
   {
     id: "18",
@@ -161,8 +161,8 @@ export const users = [
     lastName: "Molina",
     email: "pablo.molina@example.com",
     password: "Password123!",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   },
   {
     id: "19",
@@ -170,8 +170,8 @@ export const users = [
     lastName: "Herrera",
     email: "laura.herrera@example.com",
     password: "Password123!",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   },
   {
     id: "20",
@@ -179,8 +179,8 @@ export const users = [
     lastName: "Ramos",
     email: "mateo.ramos@example.com",
     password: "Password123!",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   },
   {
     id: "21",
@@ -188,8 +188,8 @@ export const users = [
     lastName: "Cruz",
     email: "sara.cruz@example.com",
     password: "Password123!",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   },
   {
     id: "22",
@@ -197,8 +197,8 @@ export const users = [
     lastName: "Vega",
     email: "adrian.vega@example.com",
     password: "InstructorPass!",
-    role: "instructor",
-    status: "active"
+    role: "Instructor",
+    status: "Active"
   },
   {
     id: "23",
@@ -206,8 +206,8 @@ export const users = [
     lastName: "Leon",
     email: "marta.leon@example.com",
     password: "InstructorPass!",
-    role: "instructor",
-    status: "active"
+    role: "Instructor",
+    status: "Active"
   },
   {
     id: "24",
@@ -215,8 +215,8 @@ export const users = [
     lastName: "Sierra",
     email: "raul.sierra@example.com",
     password: "InstructorPass!",
-    role: "instructor",
-    status: "active"
+    role: "Instructor",
+    status: "Active"
   },
   {
     id: "25",
@@ -224,8 +224,8 @@ export const users = [
     lastName: "Campos",
     email: "natalia.campos@example.com",
     password: "InstructorPass!",
-    role: "instructor",
-    status: "active"
+    role: "Instructor",
+    status: "Active"
   },
   {
     id: "26",
@@ -233,8 +233,8 @@ export const users = [
     lastName: "Ibarra",
     email: "jorge.ibarra@example.com",
     password: "InstructorPass!",
-    role: "instructor",
-    status: "active"
+    role: "Instructor",
+    status: "Active"
   },
   {
     id: "27",
@@ -242,8 +242,8 @@ export const users = [
     lastName: "Palacios",
     email: "elena.palacios@example.com",
     password: "AdminPass!",
-    role: "admin",
-    status: "active"
+    role: "Admin",
+    status: "Active"
   },
   {
     id: "28",
@@ -251,8 +251,8 @@ export const users = [
     lastName: "Camacho",
     email: "rafael.camacho@example.com",
     password: "AdminPass!",
-    role: "admin",
-    status: "active"
+    role: "Admin",
+    status: "Active"
   },
   {
     id: "29",
@@ -260,8 +260,8 @@ export const users = [
     lastName: "Núñez",
     email: "beatriz.nunez@example.com",
     password: "Password123!",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   },
   {
     id: "30",
@@ -269,7 +269,7 @@ export const users = [
     lastName: "Hendel",
     email: "fh@test.com",
     password: "123",
-    role: "student",
-    status: "active"
+    role: "Student",
+    status: "Active"
   }
 ];
