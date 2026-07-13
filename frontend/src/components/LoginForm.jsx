@@ -7,7 +7,6 @@ import {
   Button,
   Stack,
   Alert,
-  Paper,
 } from "@mantine/core";
 
 import { useAuth } from "../context/AuthContext";
@@ -71,50 +70,51 @@ export default function LoginForm() {
   };
 
   return (
-    <Paper
-      shadow="sm"
-      p="xl"
-      radius="md"
-      withBorder
+    <Stack
+      gap="md"
+      data-testid="login-form"
     >
-      <Stack>
-        <TextInput
-          label="Email"
-          placeholder="Enter your email"
-          value={email}
-          data-testid="login-email"
-          onChange={(e) =>
-            setEmail(e.target.value)
-          }
-        />
+      <TextInput
+        label="Email"
+        placeholder="fh@test.com"
+        value={email}
+        size="md"
+        data-testid="login-email"
+        onChange={(e) =>
+          setEmail(e.target.value)
+        }
+      />
 
-        <PasswordInput
-          label="Password"
-          placeholder="Enter your password"
-          value={password}
-          data-testid="login-password"
-          onChange={(e) =>
-            setPassword(e.target.value)
-          }
-        />
+      <PasswordInput
+        label="Password"
+        placeholder="Enter your password"
+        value={password}
+        size="md"
+        data-testid="login-password"
+        onChange={(e) =>
+          setPassword(e.target.value)
+        }
+      />
 
-        {errorMessage && (
-          <Alert
-            color="red"
-            data-testid="login-error"
-          >
-            {errorMessage}
-          </Alert>
-        )}
-
-        <Button
-          fullWidth
-          data-testid="login-submit"
-          onClick={handleLogin}
+      {errorMessage && (
+        <Alert
+          color="red"
+          variant="light"
+          data-testid="login-error"
         >
-          Login
-        </Button>
-      </Stack>
-    </Paper>
+          {errorMessage}
+        </Alert>
+      )}
+
+      <Button
+        fullWidth
+        size="md"
+        color="petrol"
+        data-testid="login-submit"
+        onClick={handleLogin}
+      >
+        Sign in
+      </Button>
+    </Stack>
   );
 }

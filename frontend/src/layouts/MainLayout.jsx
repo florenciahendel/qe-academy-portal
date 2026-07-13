@@ -1,11 +1,27 @@
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@mantine/core";
+import {
+  AppShell,
+  Box,
+  Button,
+  Group,
+  NavLink,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
+
+import {
+  Link,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 import { useAuth } from "../context/AuthContext";
-import AppContainer from "../components/shared/AppContainer";
 
-export default function MainLayout({ children }) {
+export default function MainLayout({
+  children,
+}) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { user, logout } = useAuth();
 
@@ -15,113 +31,183 @@ export default function MainLayout({ children }) {
   };
 
   return (
-    <AppContainer>
-      <header data-testid="main-header">
-        <h1 data-testid="portal-title">
-          QE Academy Portal
-        </h1>
+    <AppShell
+      padding="md"
+      navbar={{
+        width: 260,
+        breakpoint: "sm",
+      }}
+      header={{
+        height: 70,
+      }}
+      bg="#F8FAFC"
+    >
+      <AppShell.Header
+        style={{
+          background: "#FFFFFF",
+          borderBottom:
+            "1px solid #E2E8F0",
+        }}
+      >
+        <Group
+          h="100%"
+          px="lg"
+          justify="space-between"
+        >
+          <Title
+            order={3}
+            c="#0F4C5C"
+            data-testid="portal-title"
+          >
+            QE Academy Portal
+          </Title>
 
-        <nav data-testid="main-navigation">
-          <Link
-            data-testid="menu-dashboard"
+          <Group gap="md">
+            <Stack gap={0}>
+              <Text
+                fw={600}
+                size="sm"
+              >
+                {user?.firstName}{" "}
+                {user?.lastName}
+              </Text>
+
+              <Text
+                size="xs"
+                c="dimmed"
+              >
+                {user?.role}
+              </Text>
+            </Stack>
+
+            <Button
+              variant="light"
+              color="red"
+              data-testid="logout-button"
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
+          </Group>
+        </Group>
+      </AppShell.Header>
+
+      <AppShell.Navbar
+        p="md"
+        bg="#FFFFFF"
+      >
+        <Stack gap="xs">
+          <Box mb="md">
+            <Text
+              size="xs"
+              c="dimmed"
+              tt="uppercase"
+              fw={700}
+            >
+              Navigation
+            </Text>
+          </Box>
+
+          <NavLink
+            component={Link}
             to="/dashboard"
-          >
-            Dashboard
-          </Link>
+            label="Dashboard"
+            active={
+              location.pathname ===
+              "/dashboard"
+            }
+          />
 
-          {" | "}
-
-          <Link
-            data-testid="menu-profile"
+          <NavLink
+            component={Link}
             to="/profile"
-          >
-            Profile
-          </Link>
+            label="Profile"
+            active={
+              location.pathname ===
+              "/profile"
+            }
+          />
 
-          {user?.role === "Student" && (
+          {user?.role ===
+            "Student" && (
             <>
-              {" | "}
-
-              <Link
-                data-testid="menu-courses"
+              <NavLink
+                component={Link}
                 to="/courses"
-              >
-                Courses
-              </Link>
+                label="Courses"
+                active={
+                  location.pathname ===
+                  "/courses"
+                }
+              />
 
-              {" | "}
-
-              <Link
-                data-testid="menu-my-courses"
+              <NavLink
+                component={Link}
                 to="/my-courses"
-              >
-                My Courses
-              </Link>
+                label="My Courses"
+                active={
+                  location.pathname ===
+                  "/my-courses"
+                }
+              />
             </>
           )}
 
-          {user?.role === "Instructor" && (
+          {user?.role ===
+            "Instructor" && (
             <>
-              {" | "}
-
-              <Link
-                data-testid="menu-courses"
+              <NavLink
+                component={Link}
                 to="/courses"
-              >
-                Courses
-              </Link>
+                label="Courses"
+                active={
+                  location.pathname ===
+                  "/courses"
+                }
+              />
 
-              {" | "}
-
-              <Link
-                data-testid="menu-course-management"
+              <NavLink
+                component={Link}
                 to="/course-management"
-              >
-                Course Management
-              </Link>
+                label="Course Management"
+                active={
+                  location.pathname ===
+                  "/course-management"
+                }
+              />
             </>
           )}
 
           {user?.role === "Admin" && (
             <>
-              {" | "}
-
-              <Link
-                data-testid="menu-users"
+              <NavLink
+                component={Link}
                 to="/users"
-              >
-                Users
-              </Link>
+                label="Users"
+                active={
+                  location.pathname.startsWith(
+                    "/users"
+                  )
+                }
+              />
 
-              {" | "}
-
-              <Link
-                data-testid="menu-course-management"
+              <NavLink
+                component={Link}
                 to="/course-management"
-              >
-                Course Management
-              </Link>
+                label="Course Management"
+                active={
+                  location.pathname ===
+                  "/course-management"
+                }
+              />
             </>
           )}
+        </Stack>
+      </AppShell.Navbar>
 
-          {" | "}
-
-          <Button
-            variant="light"
-            color="red"
-            data-testid="logout-button"
-            onClick={handleLogout}
-          >
-            Logout
-          </Button>
-        </nav>
-
-        <hr />
-      </header>
-
-      <main data-testid="page-content">
+      <AppShell.Main>
         {children}
-      </main>
-    </AppContainer>
+      </AppShell.Main>
+    </AppShell>
   );
 }
