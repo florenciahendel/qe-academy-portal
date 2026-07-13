@@ -9,13 +9,13 @@ export const users = [
     email: "maria.garcia@example.com",
     password: "Password123!",
     role: "Student",
-    status: "Inactive"
+    status: "Active"
   },
   {
     id: "2",
-    firstName: "José",
+    firstName: "Juan Carlos",
     lastName: "Martínez",
-    email: "jose.martinez@example.com",
+    email: "juan.carlos.martinez@example.com",
     password: "InstructorPass!",
     role: "Instructor",
     status: "Inactive"

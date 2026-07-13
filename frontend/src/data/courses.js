@@ -302,7 +302,7 @@ export const courses = [
   },
   {
     id: 24,
-    code: "QE-999",
+    code: "QE-101",
     name: "Enterprise QA Leadership",
     category: "Automation",
     level: "Advanced",

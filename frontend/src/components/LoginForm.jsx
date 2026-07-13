@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { users } from "../data/users";
-import { useAuth } from "../context/AuthContext";
 
 import {
   TextInput,
@@ -12,9 +10,13 @@ import {
   Paper,
 } from "@mantine/core";
 
+import { useAuth } from "../context/AuthContext";
+
 export default function LoginForm() {
   const navigate = useNavigate();
+
   const { setUser } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -30,31 +32,60 @@ export default function LoginForm() {
       return;
     }
 
-    const matchedUser = users.find(
-      (user) => user.email === email && user.password === password,
-    );
+    fetch("http://127.0.0.1:8000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((error) => {
+            throw new Error(error.detail);
+          });
+        }
 
-    if (!matchedUser) {
-      setErrorMessage("Invalid credentials.");
-      return;
-    }
+        return response.json();
+      })
+      .then((userData) => {
+        setErrorMessage("");
 
-    setErrorMessage("");
+        setUser({
+          id: userData.id,
+          firstName: userData.first_name,
+          lastName: userData.last_name,
+          email: userData.email,
+          role: userData.role,
+          status: userData.status,
+        });
 
-    setUser(matchedUser);
-
-    navigate("/dashboard");
+        navigate("/dashboard");
+      })
+      .catch((error) => {
+        setErrorMessage(error.message);
+      });
   };
 
   return (
-    <Paper shadow="sm" p="xl" radius="md" withBorder>
+    <Paper
+      shadow="sm"
+      p="xl"
+      radius="md"
+      withBorder
+    >
       <Stack>
         <TextInput
           label="Email"
           placeholder="Enter your email"
           value={email}
           data-testid="login-email"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) =>
+            setEmail(e.target.value)
+          }
         />
 
         <PasswordInput
@@ -62,16 +93,25 @@ export default function LoginForm() {
           placeholder="Enter your password"
           value={password}
           data-testid="login-password"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) =>
+            setPassword(e.target.value)
+          }
         />
 
         {errorMessage && (
-          <Alert color="red" data-testid="login-error">
+          <Alert
+            color="red"
+            data-testid="login-error"
+          >
             {errorMessage}
           </Alert>
         )}
 
-        <Button fullWidth data-testid="login-submit" onClick={handleLogin}>
+        <Button
+          fullWidth
+          data-testid="login-submit"
+          onClick={handleLogin}
+        >
           Login
         </Button>
       </Stack>

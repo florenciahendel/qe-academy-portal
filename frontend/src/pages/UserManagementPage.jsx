@@ -1,53 +1,97 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { Table, Badge, TextInput, Select, Group } from "@mantine/core";
+import {
+  Table,
+  Badge,
+  TextInput,
+  Select,
+  Group,
+} from "@mantine/core";
+
+import { Link } from "react-router-dom";
 
 import PageHeader from "../components/shared/PageHeader";
 import AppCard from "../components/shared/AppCard";
-import { Link } from "react-router-dom";
-
-import { users } from "../data/users";
 
 export default function UserManagementPage() {
+  const [users, setUsers] = useState([]);
+
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
 
-  const roles = [...new Set(users.map((user) => user.role))];
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/users")
+      .then((response) => response.json())
+      .then((data) => setUsers(data))
+      .catch((error) =>
+        console.error("Error loading users:", error)
+      );
+  }, []);
 
-  const statuses = [...new Set(users.map((user) => user.status))];
+  const roles = [
+    ...new Set(users.map((user) => user.role)),
+  ];
+
+  const statuses = [
+    ...new Set(users.map((user) => user.status)),
+  ];
 
   const filteredUsers = users.filter((user) => {
-    const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
+    const fullName =
+      `${user.first_name} ${user.last_name}`.toLowerCase();
 
     const matchesSearch =
       fullName.includes(search.toLowerCase()) ||
-      user.email.toLowerCase().includes(search.toLowerCase());
+      user.email
+        .toLowerCase()
+        .includes(search.toLowerCase());
 
-    const matchesRole = !roleFilter || user.role === roleFilter;
+    const matchesRole =
+      !roleFilter ||
+      user.role === roleFilter;
 
-    const matchesStatus = !statusFilter || user.status === statusFilter;
+    const matchesStatus =
+      !statusFilter ||
+      user.status === statusFilter;
 
-    return matchesSearch && matchesRole && matchesStatus;
+    return (
+      matchesSearch &&
+      matchesRole &&
+      matchesStatus
+    );
   });
 
   const rows = filteredUsers.map((user) => (
-    <Table.Tr key={user.id} data-testid={`user-row-${user.id}`}>
-      <Table.Td>{user.firstName}</Table.Td>
+    <Table.Tr
+      key={user.id}
+      data-testid={`user-row-${user.id}`}
+    >
+      <Table.Td>{user.first_name}</Table.Td>
 
-      <Table.Td>{user.lastName}</Table.Td>
+      <Table.Td>{user.last_name}</Table.Td>
 
       <Table.Td>{user.email}</Table.Td>
 
       <Table.Td>{user.role}</Table.Td>
 
       <Table.Td>
-        <Badge color={user.status === "Active" ? "green" : "yellow"}>
+        <Badge
+          color={
+            user.status === "Active"
+              ? "green"
+              : "yellow"
+          }
+        >
           {user.status}
         </Badge>
       </Table.Td>
+
       <Table.Td>
-        <Link to={`/users/${user.id}`} data-testid={`view-user-${user.id}`}>
+        <Link
+          to={`/users/${user.id}`}
+          data-testid={`view-user-${user.id}`}
+        >
           View Details
         </Link>
       </Table.Td>
@@ -56,7 +100,10 @@ export default function UserManagementPage() {
 
   return (
     <AppCard>
-      <PageHeader title="User Management" subtitle="Manage platform users." />
+      <PageHeader
+        title="User Management"
+        subtitle="Manage platform users."
+      />
 
       <TextInput
         mb="md"
@@ -64,7 +111,9 @@ export default function UserManagementPage() {
         placeholder="Search by name or email..."
         value={search}
         data-testid="user-search"
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) =>
+          setSearch(e.target.value)
+        }
       />
 
       <Group mb="md">
@@ -75,7 +124,9 @@ export default function UserManagementPage() {
           data={roles}
           value={roleFilter}
           data-testid="user-filter-role"
-          onChange={(value) => setRoleFilter(value || "")}
+          onChange={(value) =>
+            setRoleFilter(value || "")
+          }
         />
 
         <Select
@@ -85,11 +136,17 @@ export default function UserManagementPage() {
           data={statuses}
           value={statusFilter}
           data-testid="user-filter-status"
-          onChange={(value) => setStatusFilter(value || "")}
+          onChange={(value) =>
+            setStatusFilter(value || "")
+          }
         />
       </Group>
 
-      <Table striped highlightOnHover data-testid="users-table">
+      <Table
+        striped
+        highlightOnHover
+        data-testid="users-table"
+      >
         <Table.Thead>
           <Table.Tr>
             <Table.Th>First Name</Table.Th>

@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState} from "react-router-dom";
 
 import {
   Table,
@@ -12,12 +11,21 @@ import {
 import PageHeader from "../components/shared/PageHeader";
 import AppCard from "../components/shared/AppCard";
 
-import { courses } from "../data/courses";
-
 export default function CourseManagementPage() {
+  const [courses, setCourses] = useState([]);
+
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/courses")
+      .then((response) => response.json())
+      .then((data) => setCourses(data))
+      .catch((error) =>
+        console.error("Error loading course management data:", error)
+      );
+  }, []);
 
   const categories = [
     ...new Set(courses.map((course) => course.category)),
@@ -29,20 +37,14 @@ export default function CourseManagementPage() {
 
   const filteredCourses = courses.filter((course) => {
     const matchesSearch =
-      course.name
-        .toLowerCase()
-        .includes(search.toLowerCase()) ||
-      course.code
-        .toLowerCase()
-        .includes(search.toLowerCase());
+      course.name.toLowerCase().includes(search.toLowerCase()) ||
+      course.code.toLowerCase().includes(search.toLowerCase());
 
     const matchesCategory =
-      !categoryFilter ||
-      course.category === categoryFilter;
+      !categoryFilter || course.category === categoryFilter;
 
     const matchesStatus =
-      !statusFilter ||
-      course.status === statusFilter;
+      !statusFilter || course.status === statusFilter;
 
     return (
       matchesSearch &&
