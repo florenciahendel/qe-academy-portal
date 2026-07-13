@@ -30,6 +30,30 @@ class CourseResponse(BaseModel):
         from_attributes = True
 
 
+class CourseCreate(BaseModel):
+    code: str
+    name: str
+    category: str
+    level: str
+    duration_hours: int
+    status: str
+    instructor: str
+    short_description: str
+    description: str
+
+
+class CourseUpdate(BaseModel):
+    code: str
+    name: str
+    category: str
+    level: str
+    duration_hours: int
+    status: str
+    instructor: str
+    short_description: str
+    description: str
+
+
 class EnrollmentResponse(BaseModel):
     id: int
     user_id: str

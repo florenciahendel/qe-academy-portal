@@ -13,6 +13,8 @@ from app.models.enrollment import Enrollment
 from app.schemas import (
     UserResponse,
     CourseResponse,
+    CourseCreate,
+    CourseUpdate,
     EnrollmentResponse,
     EnrollmentCreate,
     LoginRequest,
@@ -156,6 +158,141 @@ def get_course(course_id: int):
             )
 
         return course
+
+    finally:
+        db.close()
+
+
+@app.post(
+    "/courses",
+    response_model=CourseResponse,
+)
+def create_course(course_data: CourseCreate):
+    db = SessionLocal()
+
+    try:
+        existing_course = db.scalars(
+            select(Course).where(
+                Course.code == course_data.code
+            )
+        ).first()
+
+        if existing_course:
+            raise HTTPException(
+                status_code=400,
+                detail="Course code already exists",
+            )
+
+        new_course = Course(
+            code=course_data.code,
+            name=course_data.name,
+            category=course_data.category,
+            level=course_data.level,
+            duration_hours=course_data.duration_hours,
+            status=course_data.status,
+            instructor=course_data.instructor,
+            short_description=course_data.short_description,
+            description=course_data.description,
+            enrolled_students=0,
+        )
+
+        db.add(new_course)
+        db.commit()
+        db.refresh(new_course)
+
+        return new_course
+
+    finally:
+        db.close()
+
+
+@app.put(
+    "/courses/{course_id}",
+    response_model=CourseResponse,
+)
+def update_course(
+    course_id: int,
+    course_data: CourseUpdate,
+):
+    db = SessionLocal()
+
+    try:
+        course = db.get(
+            Course,
+            course_id,
+        )
+
+        if not course:
+            raise HTTPException(
+                status_code=404,
+                detail="Course not found",
+            )
+
+        existing_course = db.scalars(
+            select(Course).where(
+                Course.code == course_data.code,
+                Course.id != course_id,
+            )
+        ).first()
+
+        if existing_course:
+            raise HTTPException(
+                status_code=400,
+                detail="Course code already exists",
+            )
+
+        course.code = course_data.code
+        course.name = course_data.name
+        course.category = course_data.category
+        course.level = course_data.level
+        course.duration_hours = course_data.duration_hours
+        course.status = course_data.status
+        course.instructor = course_data.instructor
+        course.short_description = course_data.short_description
+        course.description = course_data.description
+
+        db.commit()
+        db.refresh(course)
+
+        return course
+
+    finally:
+        db.close()
+
+
+@app.delete(
+    "/courses/{course_id}",
+)
+def delete_course(course_id: int):
+    db = SessionLocal()
+
+    try:
+        course = db.get(
+            Course,
+            course_id,
+        )
+
+        if not course:
+            raise HTTPException(
+                status_code=404,
+                detail="Course not found",
+            )
+
+        related_enrollments = db.scalars(
+            select(Enrollment).where(
+                Enrollment.course_id == course_id
+            )
+        ).all()
+
+        for enrollment in related_enrollments:
+            db.delete(enrollment)
+
+        db.delete(course)
+        db.commit()
+
+        return {
+            "message": "Course deleted"
+        }
 
     finally:
         db.close()
