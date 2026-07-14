@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import {
-  Table,
   Badge,
-  TextInput,
-  Select,
+  Button,
+  Card,
+  Grid,
   Group,
+  Select,
+  Stack,
+  Text,
+  TextInput,
+  Title,
 } from "@mantine/core";
-
-import PageHeader from "../components/shared/PageHeader";
-import AppCard from "../components/shared/AppCard";
 
 export default function CoursesPage() {
   const [courses, setCourses] = useState([]);
@@ -78,126 +80,177 @@ export default function CoursesPage() {
     }
   );
 
-  const rows = filteredCourses.map(
-    (course) => (
-      <Table.Tr
-        key={course.id}
-        data-testid={`course-row-${course.id}`}
-      >
-        <Table.Td>{course.code}</Table.Td>
+return (
+    <Stack gap="lg">
+      <Stack gap={4}>
+        <Title order={1}>
+          Course Catalog
+        </Title>
 
-        <Table.Td>{course.name}</Table.Td>
+        <Text c="dimmed">
+          Browse available training courses.
+        </Text>
+      </Stack>
 
-        <Table.Td>{course.category}</Table.Td>
-
-        <Table.Td>{course.level}</Table.Td>
-
-        <Table.Td>
-          {course.duration_hours}
-        </Table.Td>
-
-        <Table.Td>
-          <Badge
-            color={
-              course.status === "Active"
-                ? "green"
-                : course.status ===
-                  "Inactive"
-                ? "yellow"
-                : "gray"
+      <Grid>
+        <Grid.Col span={{ base: 12, md: 5 }}>
+          <TextInput
+            label="Search"
+            placeholder="Search by name or code..."
+            value={search}
+            data-testid="course-search"
+            onChange={(e) =>
+              setSearch(e.target.value)
             }
+          />
+        </Grid.Col>
+
+        <Grid.Col span={{ base: 12, md: 2 }}>
+          <Select
+            label="Category"
+            placeholder="All"
+            clearable
+            data={categories}
+            value={categoryFilter}
+            data-testid="course-filter-category"
+            onChange={(value) =>
+              setCategoryFilter(value || "")
+            }
+          />
+        </Grid.Col>
+
+        <Grid.Col span={{ base: 12, md: 2 }}>
+          <Select
+            label="Level"
+            placeholder="All"
+            clearable
+            data={levels}
+            value={levelFilter}
+            data-testid="course-filter-level"
+            onChange={(value) =>
+              setLevelFilter(value || "")
+            }
+          />
+        </Grid.Col>
+
+        <Grid.Col span={{ base: 12, md: 3 }}>
+          <Select
+            label="Status"
+            placeholder="All"
+            clearable
+            data={statuses}
+            value={statusFilter}
+            data-testid="course-filter-status"
+            onChange={(value) =>
+              setStatusFilter(value || "")
+            }
+          />
+        </Grid.Col>
+      </Grid>
+
+      <Grid>
+        {filteredCourses.map((course) => (
+          <Grid.Col
+            key={course.id}
+            span={{ base: 12, md: 6, lg: 4 }}
           >
-            {course.status}
-          </Badge>
-        </Table.Td>
+            <Card
+              withBorder
+              radius="lg"
+              shadow="xs"
+              h="100%"
+              data-testid={`course-card-${course.id}`}
+            >
+              <Stack
+                gap="md"
+                justify="space-between"
+                h="100%"
+              >
+                <Stack gap="sm">
+                  <Group justify="space-between">
+                    <Badge
+                      color="petrol"
+                      variant="light"
+                    >
+                      {course.code}
+                    </Badge>
 
-        <Table.Td>
-          <Link
-            to={`/course-detail/${course.id}`}
-            data-testid={`view-course-${course.id}`}
-          >
-            View Details
-          </Link>
-        </Table.Td>
-      </Table.Tr>
-    )
+                    <Badge
+                      color={
+                        course.status === "Active"
+                          ? "green"
+                          : course.status === "Inactive"
+                          ? "yellow"
+                          : "gray"
+                      }
+                    >
+                      {course.status}
+                    </Badge>
+                  </Group>
+
+                  <Title order={4}>
+                    {course.name}
+                  </Title>
+
+                  <Group gap="xs">
+                    <Badge
+                      variant="outline"
+                      color="petrol"
+                    >
+                      {course.category}
+                    </Badge>
+
+                    <Badge
+                      variant="outline"
+                      color="gray"
+                    >
+                      {course.level}
+                    </Badge>
+                  </Group>
+
+                  <Text
+                    size="sm"
+                    c="dimmed"
+                  >
+                    {course.short_description ||
+                      "No description available."}
+                  </Text>
+                </Stack>
+
+                <Stack gap="xs">
+                  <Text
+                    size="sm"
+                    fw={500}
+                  >
+                    Instructor:{" "}
+                    {course.instructor ||
+                      "TBD"}
+                  </Text>
+
+                  <Text
+                    size="sm"
+                    c="dimmed"
+                  >
+                    Duration:{" "}
+                    {course.duration_hours}h
+                  </Text>
+
+                  <Button
+                    component={Link}
+                    to={`/course-detail/${course.id}`}
+                    color="petrol"
+                    fullWidth
+                    data-testid={`view-course-${course.id}`}
+                  >
+                    View Details
+                  </Button>
+                </Stack>
+              </Stack>
+            </Card>
+          </Grid.Col>
+        ))}
+      </Grid>
+    </Stack>
   );
-
-  return (
-    <AppCard>
-      <PageHeader
-        title="Course Catalog"
-        subtitle="Browse available training courses."
-      />
-
-      <TextInput
-        mb="md"
-        label="Search Courses"
-        placeholder="Search by name or code..."
-        value={search}
-        data-testid="course-search"
-        onChange={(e) =>
-          setSearch(e.target.value)
-        }
-      />
-
-      <Group mb="md">
-        <Select
-          label="Category"
-          placeholder="All"
-          clearable
-          data={categories}
-          value={categoryFilter}
-          data-testid="course-filter-category"
-          onChange={(value) =>
-            setCategoryFilter(value || "")
-          }
-        />
-
-        <Select
-          label="Level"
-          placeholder="All"
-          clearable
-          data={levels}
-          value={levelFilter}
-          data-testid="course-filter-level"
-          onChange={(value) =>
-            setLevelFilter(value || "")
-          }
-        />
-
-        <Select
-          label="Status"
-          placeholder="All"
-          clearable
-          data={statuses}
-          value={statusFilter}
-          data-testid="course-filter-status"
-          onChange={(value) =>
-            setStatusFilter(value || "")
-          }
-        />
-      </Group>
-
-      <Table
-        striped
-        highlightOnHover
-        data-testid="courses-table"
-      >
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th>Code</Table.Th>
-            <Table.Th>Name</Table.Th>
-            <Table.Th>Category</Table.Th>
-            <Table.Th>Level</Table.Th>
-            <Table.Th>Duration</Table.Th>
-            <Table.Th>Status</Table.Th>
-            <Table.Th>Actions</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-
-        <Table.Tbody>{rows}</Table.Tbody>
-      </Table>
-    </AppCard>
-  );
-}
+} 
+  

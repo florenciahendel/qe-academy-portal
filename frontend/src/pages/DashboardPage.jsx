@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import {
   Badge,
   Card,
@@ -14,228 +16,150 @@ import { useAuth } from "../context/AuthContext";
 export default function DashboardPage() {
   const { user } = useAuth();
 
+  const [courses, setCourses] = useState([]);
+  const [enrollments, setEnrollments] = useState([]);
+
+  useEffect(() => {
+    Promise.all([
+      fetch("http://127.0.0.1:8000/courses").then((response) =>
+        response.json(),
+      ),
+      fetch("http://127.0.0.1:8000/enrollments").then((response) =>
+        response.json(),
+      ),
+    ])
+      .then(([coursesData, enrollmentsData]) => {
+        setCourses(coursesData);
+        setEnrollments(enrollmentsData);
+      })
+      .catch((error) => console.error("Error loading dashboard data:", error));
+  }, []);
+
+  const myEnrollments = enrollments.filter(
+    (enrollment) => enrollment.user_id === user?.id,
+  );
+
+  const enrolledCourseIds = myEnrollments.map(
+    (enrollment) => enrollment.course_id,
+  );
+
+  const recommendedCourses = courses
+    .filter(
+      (course) =>
+        course.status === "Active" && !enrolledCourseIds.includes(course.id),
+    )
+    .slice(0, 3);
+
   return (
     <Stack gap="lg">
-      <Paper
-        p="xl"
-        radius="lg"
-        bg="#FFFFFF"
-        shadow="xs"
-        withBorder
-      >
+      <Paper p="xl" radius="lg" bg="#FFFFFF" shadow="xs" withBorder>
         <Stack gap="xs">
-          <Badge
-            color="petrol"
-            variant="light"
-            w="fit-content"
-          >
+          <Badge color="petrol" variant="light" w="fit-content">
             QE Academy Portal
           </Badge>
 
-          <Title
-            order={1}
-            c="#0F172A"
-            data-testid="dashboard-title"
-          >
+          <Title order={1} c="#0F172A" data-testid="dashboard-title">
             Welcome back, {user?.firstName}
           </Title>
 
-          <Text
-            c="#64748B"
-            size="lg"
-          >
-            Continue your learning journey and expand your QA skills.
+          <Text c="#64748B" size="lg">
+            {user?.role === "Student" &&
+              "Continue your learning journey and build your QA skills."}
+
+            {user?.role === "Instructor" &&
+              "Manage courses, support learners and grow the academy content."}
+
+            {user?.role === "Admin" &&
+              "Monitor platform activity, manage users and oversee the learning catalog."}
           </Text>
         </Stack>
       </Paper>
 
       <Grid>
-        <Grid.Col span={{ base: 12, md: 3 }}>
-          <Card
-            withBorder
-            radius="lg"
-            bg="#FFFFFF"
-          >
-            <Text
-              size="sm"
-              c="dimmed"
-            >
+        <Grid.Col span={3}>
+          <Card withBorder radius="lg">
+            <Text size="sm" c="dimmed">
               Role
             </Text>
 
-            <Title
-              order={3}
-              mt={4}
-            >
-              {user?.role}
-            </Title>
+            <Title order={3}>{user?.role}</Title>
           </Card>
         </Grid.Col>
 
-        <Grid.Col span={{ base: 12, md: 3 }}>
-          <Card
-            withBorder
-            radius="lg"
-            bg="#FFFFFF"
-          >
-            <Text
-              size="sm"
-              c="dimmed"
-            >
+        <Grid.Col span={3}>
+          <Card withBorder radius="lg">
+            <Text size="sm" c="dimmed">
               Status
             </Text>
 
-            <Title
-              order={3}
-              mt={4}
-            >
-              {user?.status}
-            </Title>
+            <Title order={3}>{user?.status}</Title>
           </Card>
         </Grid.Col>
 
-        <Grid.Col span={{ base: 12, md: 3 }}>
-          <Card
-            withBorder
-            radius="lg"
-            bg="#FFFFFF"
-          >
-            <Text
-              size="sm"
-              c="dimmed"
-            >
-              Learning Paths
+        <Grid.Col span={3}>
+          <Card withBorder radius="lg">
+            <Text size="sm" c="dimmed">
+              Available Courses
             </Text>
 
-            <Title
-              order={3}
-              mt={4}
-            >
-              6
-            </Title>
+            <Title order={3}>{courses.length}</Title>
           </Card>
         </Grid.Col>
 
-        <Grid.Col span={{ base: 12, md: 3 }}>
-          <Card
-            withBorder
-            radius="lg"
-            bg="#FFFFFF"
-          >
-            <Text
-              size="sm"
-              c="dimmed"
-            >
-              Skills
+        <Grid.Col span={3}>
+          <Card withBorder radius="lg">
+            <Text size="sm" c="dimmed">
+              My Courses
             </Text>
 
-            <Title
-              order={3}
-              mt={4}
-            >
-              QA
-            </Title>
+            <Title order={3}>{myEnrollments.length}</Title>
           </Card>
         </Grid.Col>
       </Grid>
 
       <Grid>
-        <Grid.Col span={{ base: 12, md: 8 }}>
-          <Paper
-            p="xl"
-            radius="lg"
-            bg="#FFFFFF"
-            withBorder
-          >
+        <Grid.Col span={8}>
+          <Paper p="xl" radius="lg" withBorder>
             <Stack gap="md">
-              <Title order={3}>
-                Recommended Learning
-              </Title>
+              <Title order={3}>Recommended Courses</Title>
 
-              <Group grow>
-                <Card
-                  withBorder
-                  radius="md"
-                >
-                  <Badge
-                    color="petrol"
-                    variant="light"
-                  >
-                    Automation
-                  </Badge>
+              {recommendedCourses.length === 0 ? (
+                <Text c="dimmed">No recommendations available.</Text>
+              ) : (
+                <Group grow align="stretch">
+                  {recommendedCourses.map((course) => (
+                    <Card key={course.id} withBorder radius="md">
+                      <Stack gap="sm">
+                        <Badge color="petrol" variant="light">
+                          {course.category}
+                        </Badge>
 
-                  <Text
-                    fw={600}
-                    mt="sm"
-                  >
-                    Playwright Fundamentals
-                  </Text>
+                        <Text fw={600}>{course.name}</Text>
 
-                  <Text
-                    c="dimmed"
-                    size="sm"
-                    mt={4}
-                  >
-                    Build robust UI automation foundations.
-                  </Text>
-                </Card>
-
-                <Card
-                  withBorder
-                  radius="md"
-                >
-                  <Badge
-                    color="petrol"
-                    variant="light"
-                  >
-                    AI for QA
-                  </Badge>
-
-                  <Text
-                    fw={600}
-                    mt="sm"
-                  >
-                    AI Assisted Test Design
-                  </Text>
-
-                  <Text
-                    c="dimmed"
-                    size="sm"
-                    mt={4}
-                  >
-                    Accelerate test analysis using AI.
-                  </Text>
-                </Card>
-              </Group>
+                        <Text size="sm" c="dimmed">
+                          {course.short_description}
+                        </Text>
+                      </Stack>
+                    </Card>
+                  ))}
+                </Group>
+              )}
             </Stack>
           </Paper>
         </Grid.Col>
 
-        <Grid.Col span={{ base: 12, md: 4 }}>
-          <Paper
-            p="xl"
-            radius="lg"
-            bg="#FFFFFF"
-            withBorder
-          >
+        <Grid.Col span={4}>
+          <Paper p="xl" radius="lg" withBorder>
             <Stack gap="md">
-              <Title order={3}>
-                Profile
-              </Title>
+              <Title order={3}>Profile</Title>
 
               <Text>
                 {user?.firstName} {user?.lastName}
               </Text>
 
-              <Text c="dimmed">
-                {user?.email}
-              </Text>
+              <Text c="dimmed">{user?.email}</Text>
 
-              <Badge
-                color="petrol"
-                variant="light"
-                w="fit-content"
-              >
+              <Badge color="petrol" variant="light" w="fit-content">
                 {user?.role}
               </Badge>
             </Stack>

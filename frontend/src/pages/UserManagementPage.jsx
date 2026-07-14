@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
-
-import {
-  Table,
-  Badge,
-  TextInput,
-  Select,
-  Group,
-} from "@mantine/core";
-
 import { Link } from "react-router-dom";
 
-import PageHeader from "../components/shared/PageHeader";
-import AppCard from "../components/shared/AppCard";
+import {
+  Badge,
+  Button,
+  Card,
+  Grid,
+  Group,
+  Paper,
+  Select,
+  Stack,
+  Table,
+  Text,
+  TextInput,
+  Title,
+} from "@mantine/core";
 
 export default function UserManagementPage() {
   const [users, setUsers] = useState([]);
@@ -73,7 +76,14 @@ export default function UserManagementPage() {
 
       <Table.Td>{user.email}</Table.Td>
 
-      <Table.Td>{user.role}</Table.Td>
+      <Table.Td>
+        <Badge
+          variant="light"
+          color="petrol"
+        >
+          {user.role}
+        </Badge>
+      </Table.Td>
 
       <Table.Td>
         <Badge
@@ -88,78 +98,174 @@ export default function UserManagementPage() {
       </Table.Td>
 
       <Table.Td>
-        <Link
+        <Button
+          component={Link}
           to={`/users/${user.id}`}
+          variant="light"
+          color="petrol"
+          size="xs"
           data-testid={`view-user-${user.id}`}
         >
           View Details
-        </Link>
+        </Button>
       </Table.Td>
     </Table.Tr>
   ));
 
   return (
-    <AppCard>
-      <PageHeader
-        title="User Management"
-        subtitle="Manage platform users."
-      />
+    <Stack gap="lg">
+      <Stack gap={4}>
+        <Title order={1}>
+          User Management
+        </Title>
 
-      <TextInput
-        mb="md"
-        label="Search Users"
-        placeholder="Search by name or email..."
-        value={search}
-        data-testid="user-search"
-        onChange={(e) =>
-          setSearch(e.target.value)
-        }
-      />
+        <Text c="dimmed">
+          Manage platform users and roles.
+        </Text>
+      </Stack>
 
-      <Group mb="md">
-        <Select
-          label="Role"
-          placeholder="All"
-          clearable
-          data={roles}
-          value={roleFilter}
-          data-testid="user-filter-role"
-          onChange={(value) =>
-            setRoleFilter(value || "")
-          }
-        />
+      <Grid>
+        <Grid.Col span={4}>
+          <Card
+            withBorder
+            radius="lg"
+          >
+            <Text
+              size="sm"
+              c="dimmed"
+            >
+              Total Users
+            </Text>
 
-        <Select
-          label="Status"
-          placeholder="All"
-          clearable
-          data={statuses}
-          value={statusFilter}
-          data-testid="user-filter-status"
-          onChange={(value) =>
-            setStatusFilter(value || "")
-          }
-        />
-      </Group>
+            <Title order={2}>
+              {users.length}
+            </Title>
+          </Card>
+        </Grid.Col>
 
-      <Table
-        striped
-        highlightOnHover
-        data-testid="users-table"
+        <Grid.Col span={4}>
+          <Card
+            withBorder
+            radius="lg"
+          >
+            <Text
+              size="sm"
+              c="dimmed"
+            >
+              Active Users
+            </Text>
+
+            <Title order={2}>
+              {
+                users.filter(
+                  (user) =>
+                    user.status === "Active"
+                ).length
+              }
+            </Title>
+          </Card>
+        </Grid.Col>
+
+        <Grid.Col span={4}>
+          <Card
+            withBorder
+            radius="lg"
+          >
+            <Text
+              size="sm"
+              c="dimmed"
+            >
+              Roles
+            </Text>
+
+            <Title order={2}>
+              {roles.length}
+            </Title>
+          </Card>
+        </Grid.Col>
+      </Grid>
+
+      <Paper
+        p="lg"
+        radius="lg"
+        withBorder
       >
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th>First Name</Table.Th>
-            <Table.Th>Last Name</Table.Th>
-            <Table.Th>Email</Table.Th>
-            <Table.Th>Role</Table.Th>
-            <Table.Th>Status</Table.Th>
-            <Table.Th>Actions</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
+        <Stack>
+          <Grid>
+            <Grid.Col span={6}>
+              <TextInput
+                label="Search Users"
+                placeholder="Search by name or email..."
+                value={search}
+                data-testid="user-search"
+                onChange={(e) =>
+                  setSearch(e.target.value)
+                }
+              />
+            </Grid.Col>
 
-        <Table.Tbody>{rows}</Table.Tbody>
-      </Table>
-    </AppCard>
+            <Grid.Col span={3}>
+              <Select
+                label="Role"
+                placeholder="All"
+                clearable
+                data={roles}
+                value={roleFilter}
+                data-testid="user-filter-role"
+                onChange={(value) =>
+                  setRoleFilter(value || "")
+                }
+              />
+            </Grid.Col>
+
+            <Grid.Col span={3}>
+              <Select
+                label="Status"
+                placeholder="All"
+                clearable
+                data={statuses}
+                value={statusFilter}
+                data-testid="user-filter-status"
+                onChange={(value) =>
+                  setStatusFilter(value || "")
+                }
+              />
+            </Grid.Col>
+          </Grid>
+
+          <Table
+            striped
+            highlightOnHover
+            data-testid="users-table"
+          >
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th>
+                  First Name
+                </Table.Th>
+
+                <Table.Th>
+                  Last Name
+                </Table.Th>
+
+                <Table.Th>Email</Table.Th>
+
+                <Table.Th>Role</Table.Th>
+
+                <Table.Th>Status</Table.Th>
+
+                <Table.Th>
+                  Actions
+                </Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+
+            <Table.Tbody>
+              {rows}
+            </Table.Tbody>
+          </Table>
+        </Stack>
+      </Paper>
+    </Stack>
   );
 }
