@@ -265,7 +265,7 @@
     "firstName": "Florencia",
     "lastName": "Hendel",
     "email": "fh@test.com",
-    "password": "123",
+    "password": "SuperAdmin",
     "role": "Student",
     "status": "Active"
   }
