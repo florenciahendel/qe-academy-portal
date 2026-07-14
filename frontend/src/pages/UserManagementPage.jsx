@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../config/api";
 
 import {
   Badge,
   Button,
   Card,
   Grid,
-  Group,
   Paper,
   Select,
   Stack,
@@ -24,7 +24,7 @@ export default function UserManagementPage() {
   const [statusFilter, setStatusFilter] = useState("");
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/users")
+    fetch(`${API_BASE_URL}/users`)
       .then((response) => response.json())
       .then((data) => setUsers(data))
       .catch((error) =>

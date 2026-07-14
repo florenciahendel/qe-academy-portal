@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../config/api";
 
 import {
   Badge,
@@ -23,7 +24,7 @@ export default function CoursesPage() {
   const [statusFilter, setStatusFilter] = useState("");
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/courses")
+    fetch(`${API_BASE_URL}/courses`)
       .then((response) => response.json())
       .then((data) => setCourses(data))
       .catch((error) =>

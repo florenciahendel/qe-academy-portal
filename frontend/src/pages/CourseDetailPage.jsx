@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { API_BASE_URL } from "../config/api";
 
 import {
   Badge,
@@ -26,7 +27,7 @@ export default function CourseDetailPage() {
 
   const loadCourseData = () => {
     Promise.all([
-      fetch(`http://127.0.0.1:8000/courses/${id}`).then(
+      fetch(`${API_BASE_URL}/courses/${id}`).then(
         (response) => {
           if (!response.ok) {
             throw new Error("Course not found");
@@ -35,7 +36,7 @@ export default function CourseDetailPage() {
           return response.json();
         }
       ),
-      fetch("http://127.0.0.1:8000/enrollments").then(
+      fetch(`${API_BASE_URL}/enrollments`).then(
         (response) => response.json()
       ),
     ])
@@ -88,7 +89,7 @@ export default function CourseDetailPage() {
   );
 
   const handleEnroll = () => {
-    fetch("http://127.0.0.1:8000/enrollments", {
+    fetch(`${API_BASE_URL}/enrollments`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

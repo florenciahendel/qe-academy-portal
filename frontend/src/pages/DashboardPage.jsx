@@ -10,7 +10,7 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-
+import { API_BASE_URL } from "../config/api";
 import { useAuth } from "../context/AuthContext";
 
 export default function DashboardPage() {
@@ -21,10 +21,10 @@ export default function DashboardPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch("http://127.0.0.1:8000/courses").then((response) =>
+      fetch(`${API_BASE_URL}/courses`).then((response) =>
         response.json(),
       ),
-      fetch("http://127.0.0.1:8000/enrollments").then((response) =>
+      fetch(`${API_BASE_URL}/enrollments`).then((response) =>
         response.json(),
       ),
     ])

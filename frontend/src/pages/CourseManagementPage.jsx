@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../config/api";
 
 import {
   Alert,
@@ -46,7 +47,7 @@ export default function CourseManagementPage() {
   const [formError, setFormError] = useState("");
 
   const loadCourses = () => {
-    fetch("http://127.0.0.1:8000/courses")
+    fetch(`${API_BASE_URL}/courses`)
       .then((response) => response.json())
       .then((data) => setCourses(data))
       .catch((error) =>
@@ -168,8 +169,8 @@ export default function CourseManagementPage() {
     const isEditing = Boolean(selectedCourse);
 
     const url = isEditing
-      ? `http://127.0.0.1:8000/courses/${selectedCourse.id}`
-      : "http://127.0.0.1:8000/courses";
+      ? `${API_BASE_URL}/courses/${selectedCourse.id}`
+      : `${API_BASE_URL}/courses`;
 
     const method = isEditing ? "PUT" : "POST";
 
@@ -204,7 +205,7 @@ export default function CourseManagementPage() {
       return;
     }
 
-    fetch(`http://127.0.0.1:8000/courses/${courseToDelete.id}`, {
+    fetch(`${API_BASE_URL}/courses/${courseToDelete.id}`, {
       method: "DELETE",
     })
       .then((response) => {

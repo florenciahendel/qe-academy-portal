@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { API_BASE_URL } from "../config/api";
 import {
   Table,
   Badge,
@@ -23,10 +23,10 @@ export default function MyCoursesPage() {
     setLoading(true);
 
     Promise.all([
-      fetch("http://127.0.0.1:8000/courses").then((response) =>
+      fetch(`${API_BASE_URL}/courses`).then((response) =>
         response.json()
       ),
-      fetch("http://127.0.0.1:8000/enrollments").then((response) =>
+      fetch(`${API_BASE_URL}/enrollments`).then((response) =>
         response.json()
       ),
     ])
@@ -69,7 +69,7 @@ export default function MyCoursesPage() {
 
   const handleCancelEnrollment = (courseId) => {
     fetch(
-      `http://127.0.0.1:8000/enrollments/${user.id}/${courseId}`,
+      `${API_BASE_URL}/enrollments/${user.id}/${courseId}`,
       {
         method: "DELETE",
       }
